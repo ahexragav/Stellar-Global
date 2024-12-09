@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Payment UI</title>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <h1>Custom Payment Form</h1>
+    <form id="payment-form">
+        <div id="card-element"></div>
+        <button type="submit" id="submit">Pay Now</button>
+    </form>
+
+    <script>
+        const stripe = Stripe('pk_test_51QKIiC2LguTVllgvuXsfo2BqhPnEpz5r8j1yDH7ghybGOzCxMhRDijIwIYOY96uFVCqhqWiLmKlNlZ9aUGHvtoEl00VWLkU5UB'); // Replace with your actual publishable key
+        const elements = stripe.elements();
+        const card = elements.create('card');
+        card.mount('#card-element');
+
+        document.getElementById('payment-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            // Create the payment intent
+            const response = await fetch('/create-payment-intent', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ amount: 5000 }) // Example amount in cents
+            });
+
+            if (!response.ok) {
+                console.error('Failed to create payment intent');
+                alert('Failed to create payment intent.');
+                return;
+            }
+
+            const { paymentIntentClientSecret } = await response.json();
+
+            const { error } = await stripe.confirmCardPayment(paymentIntentClientSecret, {
+                payment_method: {
+                    card: card,
+                    
+                },
+            });
+
+            if (error) {
+                console.error(error);
+                alert('Payment failed: ' + error.message);
+            } else {
+                alert('Payment successful!');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h3>Welcome to the Home Page</h3>
+    <script>
+        // Retrieve the access token from localStorage
+        const accessToken = localStorage.getItem("access_token");
+
+        if (accessToken) {
+            console.log("Access token:", accessToken);
+            // Use the access token to make authenticated requests
+        } else {
+            console.error("No access token found. Please log in.");
+        }
+    </script>
+</body>
+</html>

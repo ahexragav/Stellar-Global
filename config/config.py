@@ -1,0 +1,71 @@
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+class settings:
+    AWS_ACCESS_KEY_ID: str = os.getenv("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY: str = os.getenv("AWS_SECRET_ACCESS_KEY")
+    AWS_REGION: str = os.getenv("AWS_REGION")
+    AWS_S3_BUCKET_NAME: str = os.getenv("AWS_S3_BUCKET_NAME")
+    FROM_MAIL: str = os.getenv("FROM_MAIL")
+    SMTP_SERVER: str = os.getenv("SMTP_SERVER")
+    EMAIL_PASSWORD: str = os.getenv("EMAIL_PASSWORD")
+    SMTP_PORT: str = os.getenv("SMTP_PORT")
+    FRONTEND_URL: str = os.getenv("FRONTEND_URL")
+    PROJECT_NAME: str = "Simple Twitter"
+    PROJECT_VERSION: str = "1.0.0"
+    SSH_PRIVATE_KEY: str =os.getenv("SSH_PRIVATE_KEY")
+    USE_SQLITE_DB: str = os.getenv("USE_SQLITE_DB")
+    POSTGRES_USER: str = os.getenv("POSTGRES_USER")
+    POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
+    POSTGRES_SERVER: str = os.getenv("POSTGRES_SERVER", "localhost")
+    POSTGRES_PORT: str = os.getenv("POSTGRES_PORT", 5432)
+    POSTGRES_DB: str = os.getenv("POSTGRES_DB", "tdd")
+    SECRET_KEY: str = os.getenv("SECRET_KEY")
+    ALGORITHM = "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES = 30  # in mins
+    LINKEDIN_CLIENT_ID:str=os.getenv("LINKEDIN_CLIENT_ID")
+    LINKEDIN_CLIENT_SECRET:str=os.getenv("LINKEDIN_CLIENT_SECRET")
+    LINKEDIN_REDIRECT_URI:str=os.getenv("LINKEDIN_REDIRECT_URI")
+    LINKEDIN_TOKEN_URL:str=os.getenv("LINKEDIN_TOKEN_URL")
+    LINKEDIN_USERINFO_URL:str=os.getenv("LINKEDIN_USERINFO_URL")
+    LINKEDIN_AUTH_URL:str=os.getenv("LINKEDIN_AUTH_URL")
+    LINKEDIN_SCOPES:str=os.getenv("LINKEDIN_SCOPES")
+    FACEBOOK_CLIENT_ID:str=os.getenv("FACEBOOK_CLIENT_ID")
+    FACEBOOK_CLIENT_SECRET:str=os.getenv("FACEBOOK_CLIENT_SECRET")
+    FACEBOOK_REDIRECT_URI:str=os.getenv("FACEBOOK_REDIRECT_URI")
+    FACEBOOK_AUTHORIZATION_URL:str=os.getenv("FACEBOOK_AUTHORIZATION_URL")
+    FACEBOOK_TOKEN_URL:str=os.getenv("FACEBOOK_TOKEN_URL")
+    FACEBOOK_USERINFO_URL:str=os.getenv("FACEBOOK_USERINFO_URL")
+    GOOGLE_CLIENT_ID :str=os.getenv("GOOGLE_CLIENT_ID")
+    GOOGLE_CLIENT_SECRET:str=os.getenv("GOOGLE_CLIENT_SECRET")
+    GOOGLE_REDIRECT_URI:str=os.getenv("GOOGLE_REDIRECT_URI")
+    GOOGLE_AUTHORIZATION_BASE_URL:str=os.getenv("GOOGLE_AUTHORIZATION_BASE_URL")
+    GOOGLE_TOKEN_URL:str=os.getenv("GOOGLE_TOKEN_URL")
+    GOOGLE_USER_INFO_URL:str=os.getenv("GOOGLE_USER_INFO_URL")
+    FUSIONAUTH_CLIENT_ID:str=os.getenv("FUSIONAUTH_CLIENT_ID")
+    FUSIONAUTH_CLIENT_SECRET:str=os.getenv("FUSIONAUTH_CLIENT_SECRET")
+    FUSIONAUTH_URL:str=os.getenv("FUSIONAUTH_URL")
+    FUSIONAUTH_REDIRECT_URI:str=os.getenv("FUSIONAUTH_REDIRECT_URI")
+    FUSIONAUTH_AUTHORIZATION_BASE_URL:str=os.getenv("FUSIONAUTH_AUTHORIZATION_BASE_URL")
+    FUSIONAUTH_TOKEN_URL:str=os.getenv("FUSIONAUTH_TOKEN_URL")
+    FUSIONAUTH_USER_INFO_URL:str=os.getenv("FUSIONAUTH_USER_INFO_URL")
+    FUSIONAUTH_APP_ID :str=os.getenv("FUSIONAUTH_APP_ID")
+    FUSIONAUTH_REGISTER_URL:str=os.getenv("FUSIONAUTH_REGISTER_URL")
+    FUSIONAUTH_API_KEY:str=os.getenv("FUSIONAUTH_API_KEY")
+    SSH_PRIVATE_KEY: str = os.getenv("SSH_PRIVATE_KEY")
+    USE_SQLITE_DB: str = os.getenv("USE_SQLITE_DB")
+    POSTGRES_USER: str = os.getenv("POSTGRES_USER")
+    ADDRESS: str = os.getenv("ADDRESS")
+    STRIPE_SECRET_KEY: str = os.getenv("STRIPE_SECRET_KEY")
+    STRIPE_WEBHOOK_SECRET: str = os.getenv("STRIPE_WEBHOOK_SECRET")
+
+    @property
+    def DATABASE_URL(self):
+        return f"postgresql+psycopg2://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@127.0.0.1:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+
+
+
+settings()
+

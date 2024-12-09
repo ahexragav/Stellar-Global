@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page</title>
+    <script src="https://js.stripe.com/v3/"></script> <!-- Stripe.js -->
+</head>
+<body>
+    <h1>Payment Page</h1>
+
+    <!-- Checkout Button -->
+    <button id="checkout-button">Proceed to Checkout</button>
+
+    <script type="text/javascript">
+        // Your publishable Stripe key (Replace with your actual publishable key)
+        const stripe = Stripe('pk_test_51QKIiC2LguTVllgvuXsfo2BqhPnEpz5r8j1yDH7ghybGOzCxMhRDijIwIYOY96uFVCqhqWiLmKlNlZ9aUGHvtoEl00VWLkU5UB');
+
+        // Event listener for the checkout button
+        document.getElementById('checkout-button').addEventListener('click', function () {
+            // Get the token from the user (e.g., JWT token stored in localStorage)
+            const token = localStorage.getItem('token');
+            console.log("Token retrieved from localStorage:", token);
+            if (!token) {
+                console.log("No token found. Displaying alert.");
+                alert("User token is missing.");
+                return;
+            }
+
+            // Call your backend API to create a Stripe checkout session
+            console.log("Sending request to create checkout session with token:", token);
+
+        // Sending a POST request with token to the backend
+        fetch('http://127.0.0.1:8000/create-checkout-session', {  // Use full URL
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token: token })  // Ensure this matches the backend model
+        })
+
+        .then(response => {
+            console.log("Response status:", response.status);
+            return response.json();
+        })
+        .then(session => {
+            console.log("Session data received from backend:", session);
+            if (session.id) {
+                console.log("Redirecting to Stripe checkout with session ID:", session.id);
+                stripe.redirectToCheckout({ sessionId: session.id })
+                .then(function (result) {
+                    if (result.error) {
+                        console.error("Stripe redirect error:", result.error.message);
+                        alert(result.error.message);
+                    }
+                });
+            } else {
+                console.log("Session ID not received. Displaying alert.");
+                alert("Failed to create session.");
+            }
+        })
+        .catch(error => {
+            console.error('Error during fetch request:', error);
+            alert("An error occurred. Please try again.");
+        });
+    });
+    </script>
+</body>
+</html>

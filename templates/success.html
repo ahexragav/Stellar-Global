@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success</title>
+</head>
+<body>
+    <h1>Payment Successful!</h1>
+    <p>Your payment has been completed. Finalizing your payment...</p>
+
+    <script>
+        async function completePayment() {
+            // Extract session ID from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const sessionId = urlParams.get('session_id');
+            const token = localStorage.getItem('token'); // Get the auth token from storage
+            console.log("token:",token,"session id:",sessionId)
+            if (!sessionId || !token) {
+                alert("Error: Missing session ID or authentication token.");
+                console.error("Missing session ID or auth token.");
+                return;
+            }
+
+            // Prepare data for the /pay API
+            const paymentDetails = {
+            token: token,
+            session_id: sessionId,
+            payment_details: { method: 'card', amount: 100 }, // Example details
+            };
+
+
+            try {
+                // Make a POST request to the /pay API
+                const response = await fetch('http://127.0.0.1:8000/pay', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(paymentDetails),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert("Payment processed successfully!");
+                    console.log("Payment details:", result);
+                } else {
+                    alert("Payment finalization failed. Please try again.");
+                    console.error("Error:", result);
+                }
+            } catch (error) {
+                console.error("Error making /pay API call:", error);
+                alert("An error occurred while finalizing the payment.");
+            }
+        }
+
+        // Call the function when the page loads
+        completePayment();
+    </script>
+</body>
+</html>

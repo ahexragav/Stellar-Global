@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAuth Callback</title>
+</head>
+<body>
+    <h3>Authenticating...</h3>
+    <script>
+        async function fetchAccessToken() {
+            // Extract the code parameter from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+
+            if (!code) {
+                console.error("Authorization code not found in URL.");
+                return;
+            }
+
+            try {
+                // Call the callback endpoint with the authorization code
+                const response = await fetch(`/callback/google?code=${code}`);
+                
+                if (!response.ok) {
+                    throw new Error("Failed to retrieve access token");
+                }
+
+                const data = await response.json();
+                const accessToken = data.access_token;
+
+                // Store the access token in localStorage
+                localStorage.setItem("access_token", accessToken);
+
+                // Redirect to home.html or another page
+                window.location.href = "/home.html";
+            } catch (error) {
+                console.error("Error during authentication:", error);
+            }
+        }
+
+        // Fetch and store the access token when the page loads
+        fetchAccessToken();
+    </script>
+</body>
+</html>
